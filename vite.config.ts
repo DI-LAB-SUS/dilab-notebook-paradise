@@ -8,7 +8,7 @@ export default defineConfig({
     // With this, fetch('/api') will request to http://localhost:5000/ in development for example.
     proxy: {  // Point to different URL in development mode.
       '/api': {
-        target: 'http://localhost:5000',  // Port for backend API.
+        target: 'http://localhost:3000',  // Port for backend API.
         changeOrigin: true,  // ensures the Host header matches the target.
         secure: false,  // If using HTTPS with self-signed certs.
         rewrite: (path) => path.replace(/^\/api/, ''), // Optional: Remove '/api' prefix.
