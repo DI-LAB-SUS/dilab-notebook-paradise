@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import HomeRoute from "./routes/HomeRoute.tsx";
 import HelloRoute from "./routes/HelloRoute.tsx";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-import TopBar from "./components/TopBar.tsx";
+import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -16,7 +16,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
         <CssBaseline />
 
-        <TopBar />
+        <ResponsiveAppBar />
 
         <Routes>
             <Route path={'/'} element={<HomeRoute />} />
