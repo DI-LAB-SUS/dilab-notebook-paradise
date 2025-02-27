@@ -4,6 +4,7 @@ import HomeRoute from "./routes/HomeRoute.tsx";
 import HelloRoute from "./routes/HelloRoute.tsx";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
+import LoginRoute from "./routes/LoginRoute.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -21,6 +22,7 @@ function App() {
         <Routes>
             <Route path={'/'} element={<HomeRoute />} />
             <Route path={'/hello'} element={<HelloRoute />} />
+            <Route path={'/login'} element={<LoginRoute />} />
         </Routes>
     </ThemeProvider>
   )

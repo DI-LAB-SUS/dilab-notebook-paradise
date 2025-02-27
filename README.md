@@ -5,3 +5,8 @@
 在建置模式不會做這件事情，要額外在 proxy server 設定。
 
 ---
+
+## 筆記
+
+- 因為後段是使用 HttpOnly Cookies，所以每次送出 request 都要包含 credentials 
+（如果是 Axios 的話就是```withCredentials: true```，fetch 的話就是```credentials: 'include'```）。

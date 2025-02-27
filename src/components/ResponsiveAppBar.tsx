@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AttractionsIcon from '@mui/icons-material/Attractions';
 
-const pages = ['成員讀書筆記', '活動規劃', '競賽儀錶板'];
+const pages = ['筆記圖書館（敬請期待）', '活動規劃（敬請期待）', '競賽儀錶板（敬請期待）'];
 const settings = ['個人資料', '帳號設定', '個人分數', '登出'];
 
 function ResponsiveAppBar() {
@@ -33,6 +33,39 @@ function ResponsiveAppBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleSettingClick = async (setting: string) => {
+        switch (setting) {
+            case '個人資料':
+                console.log('Navigating to Profile');
+                // Navigate to profile page
+                break;
+            case '帳號設定':
+                console.log('Navigating to Account Settings');
+                // Navigate to account settings page
+                break;
+            case '個人分數':
+                console.log('Showing personal score');
+                // Show personal score
+                break;
+            case '登出':
+                try {
+                    console.log('Logging out');
+                    const response = await fetch('/api/auth/logout');
+                    if (!response.ok) {
+                        throw new Error(`Logout HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json(); // Convert response to JSON
+                    console.log(data);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+                break;
+            default:
+                console.log(`Unknown setting: ${setting}`);
+        }
+        handleCloseUserMenu();
     };
 
     return (
@@ -145,7 +178,7 @@ function ResponsiveAppBar() {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={() => handleSettingClick(setting)}>
                                     <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                                 </MenuItem>
                             ))}
