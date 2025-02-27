@@ -15,6 +15,7 @@
 
 ## TODO
 
+- 按 Logo 回到主頁面。
 - 加入登入介面。
 - 登入後的資訊要儲存於 Zustand Store（用 localStorage 版）。可以在 Route Guard 加入 user token 驗證，
 這樣每個頁面都會有預先檢查。
