@@ -10,3 +10,12 @@
 
 - 因為後段是使用 HttpOnly Cookies，所以每次送出 request 都要包含 credentials 
 （如果是 Axios 的話就是```withCredentials: true```，fetch 的話就是```credentials: 'include'```）。
+
+---
+
+## TODO
+
+- 加入登入介面。
+- 登入後的資訊要儲存於 Zustand Store（用 localStorage 版）。可以在 Route Guard 加入 user token 驗證，
+這樣每個頁面都會有預先檢查。
+- 每個元件加入動畫效果。
