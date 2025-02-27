@@ -74,11 +74,9 @@ const LoginRoute = () => {
                         <Button size="large" variant="outlined" className={'w-1/5'} onClick={handleLogin}>
                             登入
                         </Button>
-                        <Button size="small" onClick={handleGitHubLogin}>
-                            <IconButton aria-label="GitHub" size="large">
-                                <GitHubIcon fontSize="inherit"/>
-                            </IconButton>
-                        </Button>
+                        <IconButton aria-label="GitHub" size="large" onClick={handleGitHubLogin}>
+                            <GitHubIcon fontSize="inherit"/>
+                        </IconButton>
                     </CardActions>
                 </Card>
             </Box>
