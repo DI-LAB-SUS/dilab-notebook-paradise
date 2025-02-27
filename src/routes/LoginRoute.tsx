@@ -4,13 +4,14 @@ import {useNavigate} from "react-router-dom";
 import {useTokenStore} from "../stores/token-store.ts";
 import IconButton from "@mui/material/IconButton";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import {motion} from "framer-motion";
 
 const LoginRoute = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
-    const { setToken } = useTokenStore();
+    const {setToken} = useTokenStore();
     const navigate = useNavigate();
 
     const handleLogin = async () => {
@@ -48,32 +49,40 @@ const LoginRoute = () => {
     }, []);
 
     return (
-        <Box className="table mx-auto mt-12">
-            <Card sx={{minWidth: 450}}>
-                <CardContent className={'flex items-center justify-center flex-col gap-5 mt-5'}>
-                    <Typography variant={'h5'}>
-                        登入帳號
-                    </Typography>
-                    <TextField type={'email'} id="outlined-basic" label="Email" variant="outlined" className={'w-full'}
-                               onChange={(e) => setEmail(e.target.value)}/>
-                    <TextField type={'password'} id="outlined-basic" label="Password" variant="outlined"
-                               className={'w-full'} onChange={(e) => setPassword(e.target.value)} />
-                    <Typography>
-                        {message}
-                    </Typography>
-                </CardContent>
-                <CardActions className={'flex flex-col items-center justify-center mb-10 gap-2'}>
-                    <Button size="large" variant="outlined" className={'w-1/5'} onClick={handleLogin}>
-                        登入
-                    </Button>
-                    <Button size="small" onClick={handleGitHubLogin}>
-                        <IconButton aria-label="GitHub" size="large">
-                            <GitHubIcon fontSize="inherit" />
-                        </IconButton>
-                    </Button>
-                </CardActions>
-            </Card>
-        </Box>
+        <motion.div
+            initial={{ opacity: 0, x: -50 }} // Start fully transparent, shifted left
+            animate={{ opacity: 1, x: 0 }}  // Fade in & slide to position
+            exit={{opacity: 0}}     // Fade out (if unmounting)
+            transition={{duration: 0.5}} // Animation duration
+        >
+            <Box className="table mx-auto mt-12">
+                <Card sx={{minWidth: 450}}>
+                    <CardContent className={'flex items-center justify-center flex-col gap-5 mt-5'}>
+                        <Typography variant={'h5'}>
+                            登入帳號
+                        </Typography>
+                        <TextField type={'email'} id="outlined-basic" label="Email" variant="outlined"
+                                   className={'w-full'}
+                                   onChange={(e) => setEmail(e.target.value)}/>
+                        <TextField type={'password'} id="outlined-basic" label="Password" variant="outlined"
+                                   className={'w-full'} onChange={(e) => setPassword(e.target.value)}/>
+                        <Typography>
+                            {message}
+                        </Typography>
+                    </CardContent>
+                    <CardActions className={'flex flex-col items-center justify-center mb-10 gap-2'}>
+                        <Button size="large" variant="outlined" className={'w-1/5'} onClick={handleLogin}>
+                            登入
+                        </Button>
+                        <Button size="small" onClick={handleGitHubLogin}>
+                            <IconButton aria-label="GitHub" size="large">
+                                <GitHubIcon fontSize="inherit"/>
+                            </IconButton>
+                        </Button>
+                    </CardActions>
+                </Card>
+            </Box>
+        </motion.div>
     );
 };
 
