@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {Box, Button, Card, CardActions, CardContent, TextField, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useTokenStore} from "../stores/token-store.ts";
+import IconButton from "@mui/material/IconButton";
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const LoginRoute = () => {
     const [email, setEmail] = useState("");
@@ -60,9 +62,15 @@ const LoginRoute = () => {
                         {message}
                     </Typography>
                 </CardContent>
-                <CardActions className={'flex items-center justify-center mb-10'}>
-                    <Button size="medium" variant="outlined" className={'w-full'} onClick={handleLogin}>登入</Button>
-                    <Button size="medium" variant="outlined" className={'w-full'} onClick={handleGitHubLogin}>GitHub 登入</Button>
+                <CardActions className={'flex flex-col items-center justify-center mb-10 gap-2'}>
+                    <Button size="large" variant="outlined" className={'w-1/5'} onClick={handleLogin}>
+                        登入
+                    </Button>
+                    <Button size="small" onClick={handleGitHubLogin}>
+                        <IconButton aria-label="GitHub" size="large">
+                            <GitHubIcon fontSize="inherit" />
+                        </IconButton>
+                    </Button>
                 </CardActions>
             </Card>
         </Box>
