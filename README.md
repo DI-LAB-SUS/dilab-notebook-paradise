@@ -15,8 +15,9 @@
 
 ## TODO
 
-- 按 Logo 回到主頁面。
-- 加入登入介面。
+- ~~按 Logo 回到主頁面。~~
+- ~~讓 logo icon 也有按下去會回到主頁面的功能（要避免出現 nested <a> 錯誤）。~~
+- 在 appbar 加入登入按鈕，並且要在登入期間消失、登出要回來。
 - 登入後的資訊要儲存於 Zustand Store（用 localStorage 版）。可以在 Route Guard 加入 user token 驗證，
 這樣每個頁面都會有預先檢查。
 - 每個元件加入動畫效果。
