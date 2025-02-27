@@ -52,7 +52,8 @@ function ResponsiveAppBar() {
             case '登出':
                 try {
                     console.log('Logging out');
-                    const response = await fetch('/api/auth/logout');
+                    // Include HttpOnly cookie credentials, for the token to get deleted.
+                    const response = await fetch('/api/auth/logout', {credentials: 'include'});
                     if (!response.ok) {
                         throw new Error(`Logout HTTP error! Status: ${response.status}`);
                     }
