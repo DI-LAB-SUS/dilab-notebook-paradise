@@ -6,6 +6,7 @@ import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
 import LoginRoute from "./routes/LoginRoute.tsx";
 import ProtectedRoutes from './routes/ProtectedRoutes.tsx';
+import UploadRoute from "./routes/UploadRoute.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -27,6 +28,7 @@ function App() {
             <Route element={<ProtectedRoutes />}>
                 <Route path={'/'} element={<HomeRoute />} />
                 <Route path={'/hello'} element={<HelloRoute />} />
+                <Route path={'/upload'} element={<UploadRoute />} />
             </Route>
         </Routes>
     </ThemeProvider>
