@@ -62,7 +62,7 @@ const HomeRoute = () => {
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'flex-end',
-                                    bgcolor: 'rgba(255, 255, 255, 0.7)',
+                                    bgcolor: 'rgba(62,62,62,0.7)',
                                     borderRadius: 1,
                                     p: 0.5
                                 }}
