@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AttractionsIcon from '@mui/icons-material/Attractions';
 import {motion} from "framer-motion";
 import {useNavigate} from "react-router-dom";
+import {useTokenStore} from "../stores/token-store.ts";
 
 const pages = ['筆記圖書館（敬請期待）', '活動規劃（敬請期待）', '競賽儀錶板（敬請期待）'];
 const settings = ['個人資料', '帳號設定', '個人分數', '登出'];
@@ -21,6 +22,7 @@ const settings = ['個人資料', '帳號設定', '個人分數', '登出'];
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const {token, setToken} = useTokenStore();
     const navigate = useNavigate();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,7 +40,28 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
-    const handleSettingClick = async (setting: string) => {
+    /**
+     * When logging out, the page doesn't refresh, it won't trigger the route guard to check and set token.
+     * So token needs to be set here explicitly, to trigger the settings menu item update.
+     */
+    const logout = async () => {
+        try {
+            console.log('Logging out');
+            // Include HttpOnly cookie credentials, for the token to get deleted.
+            const response = await fetch('/api/auth/logout', {credentials: 'include'});
+            if (!response.ok) {
+                throw new Error(`Logout HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json(); // Convert response to JSON
+            console.log(data);
+            setToken(false);
+            navigate('/login');
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const handleSettingClick = (setting: string) => {
         switch (setting) {
             case '個人資料':
                 console.log('Navigating to Profile');
@@ -53,25 +76,18 @@ function ResponsiveAppBar() {
                 // Show personal score
                 break;
             case '登出':
-                try {
-                    console.log('Logging out');
-                    // Include HttpOnly cookie credentials, for the token to get deleted.
-                    const response = await fetch('/api/auth/logout', {credentials: 'include'});
-                    if (!response.ok) {
-                        throw new Error(`Logout HTTP error! Status: ${response.status}`);
-                    }
-                    const data = await response.json(); // Convert response to JSON
-                    console.log(data);
-                    navigate('/login');
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
+                logout();
                 break;
             default:
                 console.log(`Unknown setting: ${setting}`);
         }
         handleCloseUserMenu();
     };
+
+    /**
+     * No need to show logout if user has authenticated.
+     */
+    const filteredSettings = !token ? settings.filter(setting => setting !== '登出') : settings;
 
     return (
         <motion.div
@@ -187,7 +203,7 @@ function ResponsiveAppBar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {settings.map((setting) => (
+                                {filteredSettings.map((setting) => (
                                     <MenuItem key={setting} onClick={() => handleSettingClick(setting)}>
                                         <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
                                     </MenuItem>
