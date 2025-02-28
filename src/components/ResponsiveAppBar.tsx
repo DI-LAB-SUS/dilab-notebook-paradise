@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AttractionsIcon from '@mui/icons-material/Attractions';
 import {motion} from "framer-motion";
+import {useNavigate} from "react-router-dom";
 
 const pages = ['筆記圖書館（敬請期待）', '活動規劃（敬請期待）', '競賽儀錶板（敬請期待）'];
 const settings = ['個人資料', '帳號設定', '個人分數', '登出'];
@@ -20,6 +21,7 @@ const settings = ['個人資料', '帳號設定', '個人分數', '登出'];
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -60,6 +62,7 @@ function ResponsiveAppBar() {
                     }
                     const data = await response.json(); // Convert response to JSON
                     console.log(data);
+                    navigate('/login');
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
