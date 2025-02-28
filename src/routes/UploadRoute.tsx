@@ -2,8 +2,21 @@ import {useState, ChangeEvent} from 'react';
 import {Container, Box, TextField, Button, Typography, Alert} from '@mui/material';
 import {motion} from 'framer-motion';
 
+// Common style for upload areas
+const uploadBoxStyle = {
+    border: '2px dashed #ccc',
+    borderRadius: 2,
+    p: 2,
+    textAlign: 'center',
+    cursor: 'pointer',
+    transition: 'border-color 0.3s',
+    '&:hover': { borderColor: 'primary.main' },
+};
+
 const UploadRoute = () => {
     const [file, setFile] = useState<File | null>(null);
+    const [image, setImage] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [desc, setDesc] = useState<string>('');
     const [alert, setAlert] = useState('');
@@ -24,6 +37,14 @@ const UploadRoute = () => {
         }
     };
 
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const selectedImage = e.target.files[0];
+            setImage(selectedImage);
+            setImagePreview(URL.createObjectURL(selectedImage));
+        }
+    };
+
     const uploadFile = async () => {
         if (!file) {
             setAlert('請上傳檔案。');
@@ -36,6 +57,11 @@ const UploadRoute = () => {
 
         const formData = new FormData();
         formData.append('file', file);
+        if (image) {
+            formData.append('image', image);
+        }
+        formData.append('title', title);
+        formData.append('desc', desc);
 
         try {
             const response = await fetch(`/users/upload`, {
@@ -96,17 +122,37 @@ const UploadRoute = () => {
                         fullWidth
                         required
                         multiline
-                        rows={4}
+                        rows={5}
                     />
-                    <Button variant="contained" color="primary" component="label">
-                        {file ? `已選擇檔案: ${file.name}` : '請選擇檔案 (.zip)'}
-                        <input
-                            type="file"
-                            hidden
-                            accept=".zip"
-                            onChange={handleFileChange}
-                        />
-                    </Button>
+                    <Box component="label" sx={uploadBoxStyle}>
+                        {file ? (
+                            <Typography variant="subtitle1">已選擇檔案: {file.name}</Typography>
+                        ) : (
+                            <Typography variant="subtitle1" color="textSecondary">
+                                點擊此區域上傳檔案 (.zip)
+                            </Typography>
+                        )}
+                        <input type="file" hidden accept=".zip" onChange={handleFileChange} />
+                    </Box>
+
+                    <Box
+                        component="label"
+                        sx={uploadBoxStyle}
+                    >
+                        {imagePreview ? (
+                            <img
+                                src={imagePreview}
+                                alt="預覽圖片"
+                                style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
+                            />
+                        ) : (
+                            <Typography variant="subtitle1" color="textSecondary">
+                                點擊此區域上傳筆記縮圖 (可不選)
+                            </Typography>
+                        )}
+                        <input type="file" hidden accept="image/*" onChange={handleImageChange} />
+                    </Box>
+
                     <Button variant="contained" color="secondary" onClick={uploadFile}>
                         上傳
                     </Button>
