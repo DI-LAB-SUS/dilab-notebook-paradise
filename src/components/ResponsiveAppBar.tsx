@@ -15,6 +15,7 @@ import AttractionsIcon from '@mui/icons-material/Attractions';
 import {motion} from "framer-motion";
 import {useNavigate} from "react-router-dom";
 import {useTokenStore} from "../stores/token-store.ts";
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 
 const pages = ['筆記圖書館（敬請期待）', '活動規劃（敬請期待）', '競賽儀錶板（敬請期待）'];
 const settings = ['個人資料', '帳號設定', '個人分數', '登出'];
@@ -181,7 +182,10 @@ function ResponsiveAppBar() {
                                 </Button>
                             ))}
                         </Box>
-                        <Box sx={{flexGrow: 0}}>
+                        <Box sx={{flexGrow: 0}} className={'flex gap-7'}>
+                            <IconButton aria-label="upload" size="large" color={'info'} href={'/upload'}>
+                                <CloudUploadOutlinedIcon fontSize="large" />
+                            </IconButton>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
