@@ -8,6 +8,7 @@ import LoginRoute from "./routes/LoginRoute.tsx";
 import ProtectedRoutes from './routes/ProtectedRoutes.tsx';
 import UploadRoute from "./routes/UploadRoute.tsx";
 import GitHubUserNotAllowedRoute from "./routes/GitHubUserNotAllowedRoute.tsx";
+import FullScreenDialog from "./components/FullScreenDialog.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -21,6 +22,8 @@ function App() {
         <CssBaseline />
 
         <ResponsiveAppBar />
+
+        <FullScreenDialog />
 
         <Routes>
             <Route path={'/login'} element={<LoginRoute />} />
