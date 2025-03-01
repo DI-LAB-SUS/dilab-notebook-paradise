@@ -79,6 +79,14 @@ const UploadRoute = () => {
 
             setIsSuccess(response.status == 200);
             setAlert(result.message);
+
+            if (response.status == 200) {
+                setImage(null);
+                setFile(null);
+                setTitle('');
+                setDesc('');
+                setImagePreview('');
+            }
         } catch (error) {
             console.error('Error uploading file:', error);
         }
@@ -93,11 +101,12 @@ const UploadRoute = () => {
         >
             <Container maxWidth="sm" sx={{mt: 8}}>
                 {
-                    isSuccess != null && (
+                    <>
+                        isSuccess != null && (
                         <Alert variant="filled" severity={isSuccess ? "success" : "error"}>
                             {alert}
                         </Alert>
-                    )
+                    </>
                 }
                 <Typography variant="h4" component="h1" gutterBottom align="center">
                     上傳壓縮筆記
