@@ -7,6 +7,7 @@ import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
 import LoginRoute from "./routes/LoginRoute.tsx";
 import ProtectedRoutes from './routes/ProtectedRoutes.tsx';
 import UploadRoute from "./routes/UploadRoute.tsx";
+import GitHubUserNotAllowedRoute from "./routes/GitHubUserNotAllowedRoute.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -30,9 +31,11 @@ function App() {
                 <Route path={'/hello'} element={<HelloRoute />} />
                 <Route path={'/upload'} element={<UploadRoute />} />
             </Route>
+
+            <Route path="/githubauth-usernotallowed" element={<GitHubUserNotAllowedRoute />} />
         </Routes>
     </ThemeProvider>
   )
 }
 
-export default App
+export default App;

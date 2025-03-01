@@ -20,6 +20,7 @@ const UploadRoute = () => {
     const [title, setTitle] = useState<string>('');
     const [desc, setDesc] = useState<string>('');
     const [alert, setAlert] = useState('');
+    const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -64,12 +65,15 @@ const UploadRoute = () => {
         formData.append('desc', desc);
 
         try {
-            const response = await fetch(`/users/upload`, {
+            const response = await fetch(`/api/upload/webpage-note`, {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',
             });
+
             const result = await response.json();
+
+            setIsSuccess(response.status == 200);
             setAlert(result.message);
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -85,8 +89,8 @@ const UploadRoute = () => {
         >
             <Container maxWidth="sm" sx={{mt: 8}}>
                 {
-                    alert.length > 0 && (
-                        <Alert variant="filled" severity="error">
+                    isSuccess != null && (
+                        <Alert variant="filled" severity={isSuccess? "success" : "error"}>
                             {alert}
                         </Alert>
                     )
