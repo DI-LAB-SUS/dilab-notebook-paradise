@@ -51,7 +51,11 @@ export default function FullScreenIFrameDialog() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <iframe src="/api/upload/default-sites/upload-webpage-tut" title="description" className={'h-full'}></iframe>
+                {
+                    iframeOpts.open && (
+                        <iframe src={iframeOpts.url} title="description" className={'h-full'}></iframe>
+                    )
+                }
             </Dialog>
         </React.Fragment>
     );

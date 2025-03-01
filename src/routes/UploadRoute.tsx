@@ -1,6 +1,8 @@
 import {useState, ChangeEvent} from 'react';
 import {Container, Box, TextField, Button, Typography, Alert} from '@mui/material';
 import {motion} from 'framer-motion';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {useIframeStore} from "../stores/iframe-store.ts";
 
 // Common style for upload areas
 const uploadBoxStyle = {
@@ -10,7 +12,7 @@ const uploadBoxStyle = {
     textAlign: 'center',
     cursor: 'pointer',
     transition: 'border-color 0.3s',
-    '&:hover': { borderColor: 'primary.main' },
+    '&:hover': {borderColor: 'primary.main'},
 };
 
 const UploadRoute = () => {
@@ -21,6 +23,8 @@ const UploadRoute = () => {
     const [desc, setDesc] = useState<string>('');
     const [alert, setAlert] = useState('');
     const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+
+    const {setIFrameOpts} = useIframeStore();
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -90,7 +94,7 @@ const UploadRoute = () => {
             <Container maxWidth="sm" sx={{mt: 8}}>
                 {
                     isSuccess != null && (
-                        <Alert variant="filled" severity={isSuccess? "success" : "error"}>
+                        <Alert variant="filled" severity={isSuccess ? "success" : "error"}>
                             {alert}
                         </Alert>
                     )
@@ -98,9 +102,24 @@ const UploadRoute = () => {
                 <Typography variant="h4" component="h1" gutterBottom align="center">
                     上傳壓縮筆記
                 </Typography>
-                <Typography component="h6" gutterBottom align="center" className={'text-gray-400'}>
-                    *目前僅限定上傳 HTML, CSS, JS 網站*
-                </Typography>
+                <Box position="relative" display="flex" justifyContent="flex-end" alignItems="center" width="100%" className={'mb-2'}>
+                    {/* Centered Typography (Absolute Positioning) */}
+                    <Typography sx={{position: "absolute", left: "50%", transform: "translateX(-50%)"}}
+                                className={'text-gray-400'}>
+                        *目前僅限定上傳 HTML, CSS, JS 網站*
+                    </Typography>
+
+                    {/* Right-Aligned Typography */}
+                    <Typography className={'text-blue-300 font-bold shadow-2xl cursor-pointer'}
+                    onClick={() => {
+                        setIFrameOpts({
+                            open: true,
+                            url: '/api/upload/default-sites/upload-webpage-tut'
+                        })
+                    }}>
+                        <HelpOutlineIcon className={'align-bottom'} />上傳教學
+                    </Typography>
+                </Box>
                 <Box
                     component="form"
                     noValidate
@@ -137,7 +156,7 @@ const UploadRoute = () => {
                                 點擊此區域上傳檔案 (.zip)
                             </Typography>
                         )}
-                        <input type="file" hidden accept=".zip" onChange={handleFileChange} />
+                        <input type="file" hidden accept=".zip" onChange={handleFileChange}/>
                     </Box>
 
                     <Box
@@ -148,14 +167,14 @@ const UploadRoute = () => {
                             <img
                                 src={imagePreview}
                                 alt="預覽圖片"
-                                style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
+                                style={{width: '100%', maxHeight: '300px', objectFit: 'contain'}}
                             />
                         ) : (
                             <Typography variant="subtitle1" color="textSecondary">
                                 點擊此區域上傳筆記縮圖 (可不選)
                             </Typography>
                         )}
-                        <input type="file" hidden accept="image/*" onChange={handleImageChange} />
+                        <input type="file" hidden accept="image/*" onChange={handleImageChange}/>
                     </Box>
 
                     <Button variant="contained" color="secondary" onClick={uploadFile}>
