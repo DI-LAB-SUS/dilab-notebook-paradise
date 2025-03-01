@@ -67,6 +67,7 @@ const UploadRoute = () => {
             const response = await fetch(`/users/upload`, {
                 method: 'POST',
                 body: formData,
+                credentials: 'include',
             });
             const result = await response.json();
             setAlert(result.message);
