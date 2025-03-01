@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import {useIframeStore} from "../stores/iframe-store.ts";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -18,25 +18,21 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog() {
-    const [open, setOpen] = React.useState(true);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+export default function FullScreenIFrameDialog() {
+    const {iframeOpts, setIFrameOpts} = useIframeStore();
 
     const handleClose = () => {
-        setOpen(false);
+        setIFrameOpts({
+            open: false,
+            url: '/'
+        });
     };
 
     return (
         <React.Fragment>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open full-screen dialog
-            </Button>
             <Dialog
                 fullScreen
-                open={open}
+                open={iframeOpts.open}
                 onClose={handleClose}
                 TransitionComponent={Transition}
             >
@@ -56,18 +52,6 @@ export default function FullScreenDialog() {
                     </Toolbar>
                 </AppBar>
                 <iframe src="/api/upload/default-sites/upload-webpage-tut" title="description" className={'h-full'}></iframe>
-                {/*<List>*/}
-                {/*    <ListItemButton>*/}
-                {/*        <ListItemText primary="Phone ringtone" secondary="Titania" />*/}
-                {/*    </ListItemButton>*/}
-                {/*    <Divider />*/}
-                {/*    <ListItemButton>*/}
-                {/*        <ListItemText*/}
-                {/*            primary="Default notification ringtone"*/}
-                {/*            secondary="Tethys"*/}
-                {/*        />*/}
-                {/*    </ListItemButton>*/}
-                {/*</List>*/}
             </Dialog>
         </React.Fragment>
     );
