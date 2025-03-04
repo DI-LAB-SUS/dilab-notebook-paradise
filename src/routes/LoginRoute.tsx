@@ -19,7 +19,7 @@ const LoginRoute = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
-    const { setToken } = useTokenStore();
+    const { token, setToken } = useTokenStore();
     const navigate = useNavigate();
 
     const handleLogin = async () => {
@@ -56,10 +56,14 @@ const LoginRoute = () => {
      * After GitHub auth and redirected into this webpage, the JWT will be saved into the HttpOnly Cookie.
      */
     const handleGitHubLogin = async () => {
-        window.location.href = "/api/auth/github-login";
+        window.location.href = "/api/auth/login/github";
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        if (token) {
+            navigate('/');
+        }
+    }, []);
 
     return (
         <motion.div

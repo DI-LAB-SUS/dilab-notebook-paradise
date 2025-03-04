@@ -8,7 +8,7 @@
 
 ## 筆記
 
-- 因為後段是使用 HttpOnly Cookies，所以每次送出 request 都要包含 credentials 
+- 因為後端是使用 HttpOnly Cookies，所以每次送出 request 都要包含 credentials 
 （如果是 Axios 的話就是```withCredentials: true```，fetch 的話就是```credentials: 'include'```）。
 
 ---

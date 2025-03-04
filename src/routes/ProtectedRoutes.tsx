@@ -22,6 +22,8 @@ const ProtectedRoutes = () => {
         try {
             const response = await fetch('/api/auth/user', { credentials: 'include' });
             if (response.ok) {
+                const data = await response.json();
+                console.log(`User data: ${JSON.stringify(data)}`);
                 setToken(true);
             } else {
                 setToken(false);

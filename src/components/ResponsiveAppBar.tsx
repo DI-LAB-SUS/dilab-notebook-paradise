@@ -62,7 +62,7 @@ function ResponsiveAppBar() {
         }
     };
 
-    const handleSettingClick = (setting: string) => {
+    const handleSettingClick = async (setting: string) => {
         switch (setting) {
             case '個人資料':
                 console.log('Navigating to Profile');
@@ -77,7 +77,7 @@ function ResponsiveAppBar() {
                 // Show personal score
                 break;
             case '登出':
-                logout();
+                await logout();
                 break;
             default:
                 console.log(`Unknown setting: ${setting}`);

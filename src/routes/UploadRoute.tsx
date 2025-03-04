@@ -101,12 +101,11 @@ const UploadRoute = () => {
         >
             <Container maxWidth="sm" sx={{mt: 8}}>
                 {
-                    <>
-                        isSuccess != null && (
+                    isSuccess != null && (
                         <Alert variant="filled" severity={isSuccess ? "success" : "error"}>
                             {alert}
                         </Alert>
-                    </>
+                    )
                 }
                 <Typography variant="h4" component="h1" gutterBottom align="center">
                     上傳壓縮筆記
