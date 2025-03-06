@@ -13,7 +13,7 @@ export interface UserNotebookCardProps {
 }
 
 export const UserNotebookCard = (props: UserNotebookCardProps) => {
-    const formatDateTime = (dateString) => {
+    const formatDateTime = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleString("en-US", {
             year: "numeric",
