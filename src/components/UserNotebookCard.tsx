@@ -4,13 +4,28 @@ import bookImg from "../assets/book-4299814_640.png";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 
-interface Props {
+export interface UserNotebookCardProps {
+    id: number;
     title: string;
-    author: string;
+    owner_name: string;
+    created_at: string;
     description: string;
 }
 
-const UserNotebookCard = ({title, author, description}: Props) => {
+export const UserNotebookCard = (props: UserNotebookCardProps) => {
+    const formatDateTime = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        }).replace(",", "");
+    };
+
     return (
         <Card sx={{position: 'relative'}} className={'mx-14 px-6'}>
             <Box className={'flex'}>
@@ -27,12 +42,12 @@ const UserNotebookCard = ({title, author, description}: Props) => {
                 {/* Right side content */}
                 <Box sx={{display: 'flex', flexDirection: 'column', flex: 1}}>
                     <CardHeader
-                        title={title}
-                        subheader={`By: ${author}`}
+                        title={props.title}
+                        subheader={`By: ${props.owner_name}, ${formatDateTime(props.created_at)}`}
                     />
                     <CardContent>
                         <Typography variant="body2" color="text.secondary">
-                            {description}
+                            {props.description}
                         </Typography>
                     </CardContent>
                 </Box>
@@ -67,5 +82,3 @@ const UserNotebookCard = ({title, author, description}: Props) => {
         </Card>
     )
 }
-
-export default UserNotebookCard;

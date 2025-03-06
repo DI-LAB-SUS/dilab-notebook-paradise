@@ -1,8 +1,22 @@
 import Box from "@mui/material/Box";
 import { motion } from "framer-motion";
-import UserNotebookCard from "../components/UserNotebookCard.tsx";
+import {UserNotebookCardProps, UserNotebookCard} from "../components/UserNotebookCard.tsx";
+import {useEffect, useState} from "react";
 
 const HomeRoute = () => {
+    const [notebookCardsPropsList, setNotebookCardsPropsList] = useState<UserNotebookCardProps[]>();
+
+    useEffect(() => {
+        fetchNotesList();
+    }, []);
+
+    const fetchNotesList = async () => {
+        const response = await fetch('/api/upload/webpage-notes-list');
+        const result = await response.json();
+        console.log(result);
+        setNotebookCardsPropsList(result.data);
+    };
+
     return (
         <Box className={'flex justify-center p-4 w-full'}>
             {/*Left side (70%)*/}
@@ -17,9 +31,9 @@ const HomeRoute = () => {
                 </motion.h1>
 
                 {/* Use motion.div for staggered animations */}
-                {[...Array(5)].map((_, index) => (
+                {notebookCardsPropsList && notebookCardsPropsList!.map((props, index) => (
                     <motion.div
-                        key={index}
+                        key={props.id}
                         initial={{ opacity: 0, x: -40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{
@@ -28,7 +42,7 @@ const HomeRoute = () => {
                             delay: index * 0.2 // Staggered delay for each card
                         }}
                     >
-                        <UserNotebookCard title={'Title'} author={'Author'} description={'Description'} />
+                        <UserNotebookCard {...props} />
                     </motion.div>
                 ))}
             </Box>
