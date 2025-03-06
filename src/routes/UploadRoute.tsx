@@ -1,4 +1,4 @@
-import {useState, ChangeEvent} from 'react';
+import {useState, ChangeEvent, useRef} from 'react';
 import {Container, Box, TextField, Button, Typography, Alert} from '@mui/material';
 import {motion} from 'framer-motion';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -23,6 +23,14 @@ const UploadRoute = () => {
     const [desc, setDesc] = useState<string>('');
     const [alert, setAlert] = useState('');
     const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+
+    /**
+     * The inputs must be referenced, and their values should be manually cleared upon a successful upload
+     * to reset the form for the next submission. Otherwise, selecting the same image or file may not trigger
+     * a change event.
+     */
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const imageInputRef = useRef<HTMLInputElement>(null);
 
     const {setIFrameOpts} = useIframeStore();
 
@@ -86,6 +94,9 @@ const UploadRoute = () => {
                 setTitle('');
                 setDesc('');
                 setImagePreview('');
+
+                if (fileInputRef.current) fileInputRef.current.value = '';
+                if (imageInputRef.current) imageInputRef.current.value = '';
             }
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -144,7 +155,6 @@ const UploadRoute = () => {
                         value={title}
                         onChange={handleTitleChange}
                         fullWidth
-                        required
                     />
                     <TextField
                         label="筆記描述（限定100字）"
@@ -152,7 +162,6 @@ const UploadRoute = () => {
                         value={desc}
                         onChange={handleDescChange}
                         fullWidth
-                        required
                         multiline
                         rows={5}
                     />
@@ -164,7 +173,7 @@ const UploadRoute = () => {
                                 點擊此區域上傳檔案 (.zip)
                             </Typography>
                         )}
-                        <input type="file" hidden accept=".zip" onChange={handleFileChange}/>
+                        <input type="file" ref={fileInputRef} hidden accept=".zip" onChange={handleFileChange}/>
                     </Box>
 
                     <Box
@@ -182,7 +191,7 @@ const UploadRoute = () => {
                                 點擊此區域上傳筆記縮圖 (可不選)
                             </Typography>
                         )}
-                        <input type="file" hidden accept="image/*" onChange={handleImageChange}/>
+                        <input type="file" ref={imageInputRef} hidden accept="image/*" onChange={handleImageChange}/>
                     </Box>
 
                     <Button variant="contained" color="secondary" onClick={uploadFile}>
